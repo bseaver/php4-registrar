@@ -13,6 +13,7 @@ This lab is about experimenting with many to many SQL relationships.
 * See https://getcomposer.org/ for details on installing _composer_.
 * See https://mamp.info/ for details on installing _MAMP_.
 * Use MAMP `http://localhost:8888/phpmyadmin/` and `registrar.sql` to import a `registrar` database.
+* To access SQL from command line: `/Applications/mamp/library/bin/mysql --host=localhost -uroot -proot`
 * Use same MAMP website to copy database to `registrar_test` database (if you would like to try PHPUnit tests).
 * Clone project
 * From project root, run > `composer install --prefer-source --no-interaction`
