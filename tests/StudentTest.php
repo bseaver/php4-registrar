@@ -68,6 +68,21 @@
             );
         }
 
+        function test_Student_find()
+        {
+            // Arrange
+            $student1 = new Student('John Smith', '2017-02-28');
+            $student2 = new Student('Tom Smith', '2017-02-27');
+            $student1->save();
+            $student2->save();
+
+            // Act
+            $result = Student::find($student2->getId());
+
+            // Assert
+            $this->assertEquals($student2, $result);
+        }
+
         // function testDeleteStudent()
         // {
         //     //Arrange
@@ -90,26 +105,7 @@
         // }
         //
 
-        // function testFind()
-        // {
-        //     //Arrange
-        //     $name = "Wash the dog";
-        //     $id = 1;
-        //     $test_category = new Category($name, $id);
-        //     $test_category->save();
-        //
-        //     $name2 = "Home stuff";
-        //     $id2 = 2;
-        //     $test_category2 = new Category($name2, $id2);
-        //     $test_category2->save();
-        //
-        //     //Act
-        //     $result = Category::find($test_category->getId());
-        //
-        //     //Assert
-        //     $this->assertEquals($test_category, $result);
-        // }
-        //
+
         // function testAddTask()
         // {
         //     //Arrange

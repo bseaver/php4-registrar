@@ -71,15 +71,15 @@
 
         static function find($search_id)
         {
-            // $found_category = null;
-            // $categories = Category::getAll();
-            // foreach($categories as $category) {
-            //     $category_id = $category->getId();
-            //     if ($category_id == $search_id) {
-            //       $found_category = $category;
-            //     }
-            // }
-            // return $found_category;
+            $found_student = null;
+            $students = Student::getAll();
+            foreach($students as $student) {
+                $student_id = $student->getId();
+                if ($student_id == $search_id) {
+                  $found_student = $student;
+                }
+            }
+            return $found_student;
         }
 
         function update($name, $date_of_enrollment)
