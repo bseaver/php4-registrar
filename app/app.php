@@ -13,6 +13,7 @@
     $DB = new PDO($server, $username, $password);
 
     $app = new Silex\Application();
+    $app['debug'] = true;
 
     $app->register(
         new Silex\Provider\TwigServiceProvider(),
@@ -22,7 +23,7 @@
     $app->get("/", function() use ($app) {
         return $app['twig']->render(
             'students.html.twig',
-            array('students' => Student::getAll())
+            array('students' => Student::getAll(), 'edit_student_id' => 0)
         );
     });
 
@@ -31,16 +32,26 @@
         $student->save();
         return $app['twig']->render(
             'students.html.twig',
-            array('students' => Student::getAll())
+            array('students' => Student::getAll(), 'edit_student_id' => 0)
         );
     });
 
     $app->get("/get/student/{id}/edit", function($id) use ($app) {
-        return 'To Do';
+
+        return $app['twig']->render(
+            'students.html.twig',
+            array('students' => Student::getAll(), 'edit_student_id' => $id)
+        );
     });
 
     $app->patch("/patch/student", function() use ($app) {
-        return 'To Do';
+        $student = Student::find($_POST['student_id']);
+        $student->update($_POST['student_name'], $_POST['date_of_enrollment']);
+
+        return $app['twig']->render(
+            'students.html.twig',
+            array('students' => Student::getAll(), 'edit_student_id' => 0)
+        );
     });
 
     $app->delete("/delete/student/{id}", function($id) use ($app) {
@@ -48,7 +59,7 @@
         $student->delete();
         return $app['twig']->render(
             'students.html.twig',
-            array('students' => Student::getAll())
+            array('students' => Student::getAll(), 'edit_student_id' => 0)
         );
     });
 

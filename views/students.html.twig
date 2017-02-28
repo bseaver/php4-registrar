@@ -13,7 +13,7 @@
 
         <div class='form-group'>
             <label for='date_of_enrollment'>Date of Enrollment</label>
-            <input required type='text' name='date_of_enrollment' class='form-control'>
+            <input required type='date' name='date_of_enrollment' class='form-control'>
         </div>
 
         <button type='submit' class='btn btn-info'>Submit</button>
@@ -35,13 +35,35 @@
             <tbody>
                 {% for student in students %}
                     <tr>
-                        <td>{{ student.getName }}</td>
-                        <td>{{ student.getDateOfEnrollment }}</td>
-                        <td>
-                            <form action='/get/student/{{ student.getId }}/edit' method='get'>
-                                <button type='submit' class='btn btn-xs btn-info'>Edit</button>
+
+                        {% if edit_student_id == student.getId %}
+                            <form action='/patch/student' method='post'>
+                                <input name='_method' value='patch' hidden>
+                                <input name='student_id' value = '{{ student.getId }}' hidden>
+                                <td>
+                                    <div class='form-group'>
+                                        <input required type='text' name='student_name' class='form-control' value='{{ student.getName }}'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='form-group'>
+                                        <input required type='date' name='date_of_enrollment' class='form-control' value='{{ student.getDateOfEnrollment }}'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type='submit' class='btn btn-xs btn-info'>Save</button>
+                                </td>
                             </form>
-                        </td>
+                        {% else %}
+                            <td>{{ student.getName }}</td>
+                            <td>{{ student.getDateOfEnrollment|date('m/d/Y') }}</td>
+                            <td>
+                                <form action='/get/student/{{ student.getId }}/edit' method='get'>
+                                    <button type='submit' class='btn btn-xs btn-info'>Edit</button>
+                                </form>
+                            </td>
+                        {% endif %}
+
                         <td>
                             <form action='/delete/student/{{ student.getId }}' method='post'>
                                 <input name='_method' value='delete' hidden>
