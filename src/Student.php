@@ -14,17 +14,17 @@
 
         function setName($name)
         {
-            // $this->name = (string) $name;
+            $this->name = (string) $name;
         }
 
         function setDateOfEnrollment($date_of_enrollment)
         {
-            // $this->name = (string) $name;
+            $this->date_of_enrollment = (string) $date_of_enrollment;
         }
 
         function setId($id)
         {
-            // $this->id = (int) $id;
+            $this->id = (int) $id;
         }
 
         function getName()
@@ -35,6 +35,10 @@
         function getId()
         {
             return $this->id;
+        }
+        function getDateOfEnrollment()
+        {
+            return $this->date_of_enrollment;
         }
 
         function save()
