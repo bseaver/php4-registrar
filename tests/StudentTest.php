@@ -83,27 +83,23 @@
             $this->assertEquals($student2, $result);
         }
 
-        // function testDeleteStudent()
-        // {
-        //     //Arrange
-        //     $name = "Work stuff";
-        //     $id = 1;
-        //     $student = new Student($name, $id);
-        //     $student->save();
-        //
-        //     $name2 = "Home stuff";
-        //     $id2 = 2;
-        //     $test_category2 = new Student($name2, $id2);
-        //     $test_category2->save();
-        //
-        //
-        //     //Act
-        //     $test_category->delete();
-        //
-        //     //Assert
-        //     $this->assertEquals([$test_category2], Student::getAll());
-        // }
-        //
+        function testDeleteStudent()
+        {
+            //Arrange
+            $student1 = new Student('John Smith', '2017-02-28');
+            $student2 = new Student('Tom Smith', '2017-02-27');
+            $student3 = new Student('Jane Smith', '2017-02-26');
+            $student1->save();
+            $student2->save();
+            $student3->save();
+
+            // Act
+            $student2->delete();
+
+            //Assert
+            $this->assertEquals([$student1, $student3], Student::getAll());
+        }
+
 
 
         // function testAddTask()
