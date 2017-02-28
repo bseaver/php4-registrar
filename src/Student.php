@@ -43,26 +43,30 @@
 
         function save()
         {
-            // $GLOBALS['DB']->exec("INSERT INTO categories (name) VALUES ('{$this->getName()}')");
-            // $this->id= $GLOBALS['DB']->lastInsertId();
+            $GLOBALS['DB']->exec(
+                "INSERT INTO students (name, date_of_enrollment)
+                    VALUES ('{$this->getName()}', '{$this->getDateOfEnrollment()}');"
+            );
+            $this->setId($GLOBALS['DB']->lastInsertId());
         }
 
         static function getAll()
         {
-            // $returned_categories = $GLOBALS['DB']->query("SELECT * FROM categories;");
-            // $categories = array();
-            // foreach($returned_categories as $category) {
-            //     $name = $category['name'];
-            //     $id = $category['id'];
-            //     $new_category = new Category($name, $id);
-            //     array_push($categories, $new_category);
-            // }
-            // return $categories;
+            $returned_students = $GLOBALS['DB']->query("SELECT * FROM students ORDER BY id;");
+            $students = array();
+            foreach($returned_students as $student) {
+                $name = $student['name'];
+                $date_of_enrollment= $student['date_of_enrollment'];
+                $id = $student['id'];
+                $new_student = new Student($name, $date_of_enrollment, $id);
+                array_push($students, $new_student);
+            }
+            return $students;
         }
 
         static function deleteAll()
         {
-        //   $GLOBALS['DB']->exec("DELETE FROM categories;");
+          $GLOBALS['DB']->exec("DELETE FROM students;");
         }
 
         static function find($search_id)
@@ -78,10 +82,11 @@
             // return $found_category;
         }
 
-        function update()
+        function update($name, $date_of_enrollment)
         {
-            // $GLOBALS['DB']->exec("UPDATE categories SET name = '{$new_name}' WHERE id = {$this->getId()};");
-            // $this->setName($new_name);
+            $GLOBALS['DB']->exec("UPDATE students SET name = '{$name}', date_of_enrollment= '{$date_of_enrollment}' WHERE id = {$this->getId()};");
+            $this->setName($name);
+            $this->setDateOfEnrollment($date_of_enrollment);
         }
 
         function delete()
