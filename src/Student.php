@@ -52,16 +52,16 @@
 
         static function getAll()
         {
-            $returned_students = $GLOBALS['DB']->query("SELECT * FROM students ORDER BY id;");
-            $students = array();
-            foreach($returned_students as $student) {
-                $name = $student['name'];
-                $date_of_enrollment= $student['date_of_enrollment'];
-                $id = $student['id'];
-                $new_student = new Student($name, $date_of_enrollment, $id);
-                array_push($students, $new_student);
+            $returned_courses = $GLOBALS['DB']->query("SELECT * FROM courses ORDER BY id;");
+            $courses = array();
+            foreach($returned_courses as $course) {
+                $course_name = $course['name'];
+                $course_number = $course['date_of_enrollment'];
+                $id = $course['id'];
+                $new_course = new Course($course_name, $course_number, $id);
+                array_push($courses, $new_course);
             }
-            return $students;
+            return $courses;
         }
 
         static function deleteAll()
@@ -92,34 +92,33 @@
         function delete()
         {
             $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
-            // $GLOBALS['DB']->exec("DELETE FROM categories_tasks WHERE category_id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM courses_students WHERE student_id = {$this->getId()};");
         }
 
         function addCourse()
         {
-            // $GLOBALS['DB']->exec("INSERT INTO categories_tasks (category_id, task_id) VALUES ({$this->getId()}, {$task->getId()});");
+            $GLOBALS['DB']->exec("INSERT INTO courses_students (course_id, student_id) VALUES ({$this->getId()}, {$course->getId()});");
         }
 
-        function geCourses()
+        function getCourses()
         {
-            // $query = $GLOBALS['DB']->query("SELECT task_id FROM categories_tasks WHERE category_id = {$this->getId()};");
-            // // $task_ids = $query->fetchAll(PDO::FETCH_ASSOC);
-            //
-            // $tasks = array();
-            // // foreach($task_ids as $id) {
-            // foreach($query as $id) {
-            //     $task_id = $id['task_id'];
-            //     $result = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE id = {$task_id};");
-            //     $returned_task = $result->fetchAll(PDO::FETCH_ASSOC);
-            //
-            //     $description = $returned_task[0]['description'];
-            //     $id = $returned_task[0]['id'];
-            //     $due_date = $returned_task[0]['due_date'];
-            //     $done = $returned_task[0]['task_is_done'];
-            //     $new_task = new Task($description, $id, $due_date, $done);
-            //     array_push($tasks, $new_task);
-            // }
-            // return $tasks;
+            $query = $GLOBALS['DB']->query("SELECT course_id FROM courses_students WHERE student_id = {$this->getId()};");
+            // $course_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $courses = array();
+            // foreach($course_ids as $id) {
+            foreach($query as $id) {
+                $course_id = $id['course_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$course_id};");
+                $returned_course = $result->fetchAll(PDO::FETCH_ASSOC);
+
+                $course_name = $returned_course[0]['course_name'];
+                $id = $returned_course[0]['id'];
+                $course_number = $returned_course[0]['course_number'];
+                $new_course = new Course($course_name, $course_number, $id);
+                array_push($courses, $new_course);
+            }
+            return $courses;
         }
 
     }

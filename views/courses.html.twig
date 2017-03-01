@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block page %}
+
+    <h3>Maintain Course List</h3>
+
+    <form action='/post/course' method='post'>
+
+        <div class='form-group'>
+            <label for='course_name'>Course Name</label>
+            <input required type='text' name='course_name' class='form-control'>
+        </div>
+
+        <div class='form-group'>
+            <label for='course_number'>Course Number</label>
+            <input required type='text' name='course_number' class='form-control'>
+        </div>
+
+        <button type='submit' class='btn btn-info'>Submit</button>
+    </form>
+
+    {% if courses is not empty %}
+        <h3>List of Courses</h3>
+        <br>
+
+        <table class="table table-striped">
+            <thead>
+                <th>Name</th>
+                <th>Course Number</th>
+                <th>Remove</th>
+                <th>Edit</th>
+                <th>Students</th>
+            </thead>
+
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+
+                        {% if edit_course_id == course.getId %}
+                            <form action='/patch/course' method='post'>
+                                <input name='_method' value='patch' hidden>
+                                <input name='course_id' value = '{{ course.getId }}' hidden>
+                                <td>
+                                    <div class='form-group'>
+                                        <input required type='text' name='course_name' class='form-control' value='{{ course.getCourseName }}'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='form-group'>
+                                        <input required type='date' name='course_number' class='form-control' value='{{ course.getCourseNumber }}'>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type='submit' class='btn btn-xs btn-info'>Save</button>
+                                </td>
+                            </form>
+                        {% else %}
+                            <td>{{ course.getCourseName }}</td>
+                            <td>{{ course.getCourseNumber }}</td>
+                            <td>
+                                <form action='/get/course/{{ course.getId }}/edit' method='get'>
+                                    <button type='submit' class='btn btn-xs btn-info'>Edit</button>
+                                </form>
+                            </td>
+                        {% endif %}
+
+                        <td>
+                            <form action='/delete/course/{{ course.getId }}' method='post'>
+                                <input name='_method' value='delete' hidden>
+                                <button type='submit' class='btn btn-xs btn-primary'>Remove</button>
+                            </form>
+                        </td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block page %}
+
+    <h3>Courses for Student</h3>
+    <h4>{{ student.getName }} / {{ student.getDateOfEnrollment }}</h4>
+
+    {% if courses is not empty %}
+        <h3>List of Courses</h3>
+        <br>
+
+        <table class="table table-striped">
+            <thead>
+                <th>Selected</th>
+                <th>Name</th>
+                <th>Course Number</th>
+            </thead>
+
+            <form action='/post/student/{{ student.getId }}/courses' method='post'>
+                <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td>
+                                <div class="checkbox">
+                                  <label><input type="checkbox" value="{{ course.getId }}"></label>
+                                </div>
+                            </td>
+                            <td>
+                                {{ course.getCourseName }}
+                            </td>
+                                {{ course.getCourseNumber }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <button type='submit' class='btn btn-primary'>Save</button>
+            </form>
+        </table>
+    {% endif %}
+{% endblock %}
